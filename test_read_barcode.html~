@@ -1,0 +1,20 @@
+rr); return; }
+Quagga.start();
+});
+
+Quagga.onDetected(data => {
+const code = data.codeResult.code;
+document.getElementById("result").textContent = "読み取り: " + code;
+
+fetch(SHEET_URL, {
+method: "POST",
+headers: { "Content-Type": "application/json" },
+body: JSON.stringify({ barcode: code })
+});
+
+Quagga.stop(); // 1回読み取ったら停止
+});
+</script>
+</body>
+</html>
+~
