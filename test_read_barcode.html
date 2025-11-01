@@ -21,33 +21,31 @@
             target: document.querySelector('#scanner'),
             constraints: {
               facingMode: { ideal: "environment" }, // 背面カメラ優先
-              width: { min: 640 },
-              height: { min: 480 }
+              width: { min: 320 },
+              height: { min: 240 }
             }
           },
           decoder: {
-            readers: [
-              "ean_reader",
-              "code_128_reader",
-              "qr_reader",
-              "upc_reader",
-              "code_39_reader"
-            ]
+              readers: ["ean_reader"],
           }
         }, function(err) {
-          if (err) {
-            console.log(err);
-            alert("カメラ初期化に失敗しました: " + err);
-            return;
-          }
-          console.log("Initialization finished. Ready to start");
-          Quagga.start();
-        });
-
+	    if (err) {
+		console.error('Quagga init error:', err);
+		document.getElementById('result').textContent =
+		    'カメラ初期化エラー: '+err;
+		alert("カメラ初期化に失敗しました: " + err);
+		return;
+            }
+            console.log("Initialization finished. Ready to start");
+            Quagga.start();
+        }
         Quagga.onDetected(function(result) {
           const code = result.codeResult.code;
           alert("バーコードを検出しました: " + code);
           document.getElementById("result").textContent = "読み取り: " + code;
+
+	});
+
 
           // スプレッドシート送信（必要なら有効化）
           /*
@@ -57,8 +55,6 @@
             body: JSON.stringify({ barcode: code })
           });
           */
-        });
-      });
     </script>
   </body>
 </html>
