@@ -17,7 +17,7 @@
         inputStream: {
           // name: "Live",
           type: "LiveStream",
-          target: document.querySelector('#camera'),
+          target: document.querySelector('#scanner'),
           constraints: {
             facingMode: "environment"
           }
@@ -32,7 +32,7 @@
       });
 
       Quagga.onDetected(function(result) {
-          const code = data.codeResult.code;
+          const code = result.codeResult.code;
 	  alert('バーコードを検出しました: '+ code);
 	  console.log('バーコード検出: ', code);
         // document.getElementById("result").textContent = "読み取り: " + code;
