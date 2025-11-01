@@ -15,32 +15,35 @@
 
       Quagga.init({
         inputStream: {
-          name: "Live",
+          // name: "Live",
           type: "LiveStream",
-          target: document.querySelector('#scanner'),
+          target: document.querySelector('#camera'),
           constraints: {
             facingMode: "environment"
           }
         },
         decoder: {
-          readers: ["ean_reader", "code_128_reader", "qr_reader"]
+            readers: ["ean_reader", "code_128_reader", "qr_reader", "upc_reader", "code_39_reader"]
         }
-      }, err => {
-        if (err) { console.error(err); return; }
+      }, function(err) {
+          if (err) { console.log(err); return; }
+	  console.log('Initialization finished. Ready to start')
         Quagga.start();
       });
 
-      Quagga.onDetected(data => {
-        const code = data.codeResult.code;
-        document.getElementById("result").textContent = "読み取り: " + code;
+      Quagga.onDetected(function(result) {
+          const code = data.codeResult.code;
+	  alert('バーコードを検出しました: '+ code);
+	  console.log('バーコード検出: ', code);
+        // document.getElementById("result").textContent = "読み取り: " + code;
 
-        fetch(SHEET_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ barcode: code })
-        });
+        // fetch(SHEET_URL, {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({ barcode: code })
+        // });
 
-        Quagga.stop(); // 1回読み取ったら停止
+        // Quagga.stop(); // 1回読み取ったら停止
       });
     </script>
   </body>
