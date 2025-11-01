@@ -19,10 +19,16 @@
       const SHEET_URL = "https://script.google.com/macros/s/AKfycby8wH3at6f92mdy2mk48NioT5119VZDUWKu6iw8L3xl_5eyTKe4a2siXnZk3lJ0WdFA/exec";
 
       document.getElementById("start-btn").addEventListener("click", function () {
+        const scannerDiv = document.getElementById("scanner");
+        if (!scannerDiv) {
+          alert("Scanner div が見つかりません");
+          return;
+        }
+
         Quagga.init({
           inputStream: {
             type: "LiveStream",
-            target: document.querySelector('#scanner'),
+            target: scannerDiv,
             constraints: {
               facingMode: { ideal: "environment" },
               width: { ideal: 320 },
@@ -30,7 +36,7 @@
             }
           },
           decoder: {
-            readers: ["code_128_reader", "ean_reader"]  // Androidでも安定
+            readers: ["code_128_reader", "ean_reader"]
           }
         }, function(err) {
           if (err) {
