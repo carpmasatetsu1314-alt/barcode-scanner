@@ -7,45 +7,58 @@
   </head>
   <body>
     <h2>バーコードスキャナ</h2>
-    <div id="scanner" style="width: 300px; height: 200px;"></div>
+    <button id="start-btn">📷 カメラを起動</button>
+    <div id="scanner" style="width: 300px; height: 200px; margin-top: 10px;"></div>
     <p id="result">読み取り中...</p>
 
     <script>
       const SHEET_URL = "https://script.google.com/macros/s/AKfycby8wH3at6f92mdy2mk48NioT5119VZDUWKu6iw8L3xl_5eyTKe4a2siXnZk3lJ0WdFA/exec";
 
-      Quagga.init({
-        inputStream: {
-          // name: "Live",
-          type: "LiveStream",
-          target: document.querySelector('#scanner'),
-          constraints: {
-            facingMode: "environment"
+      document.getElementById("start-btn").addEventListener("click", function () {
+        Quagga.init({
+          inputStream: {
+            type: "LiveStream",
+            target: document.querySelector('#scanner'),
+            constraints: {
+              facingMode: { ideal: "environment" }, // 背面カメラ優先
+              width: { min: 640 },
+              height: { min: 480 }
+            }
+          },
+          decoder: {
+            readers: [
+              "ean_reader",
+              "code_128_reader",
+              "qr_reader",
+              "upc_reader",
+              "code_39_reader"
+            ]
           }
-        },
-        decoder: {
-            readers: ["ean_reader", "code_128_reader", "qr_reader", "upc_reader", "code_39_reader"]
-        }
-      }, function(err) {
-          if (err) { console.log(err); return; }
-	  console.log('Initialization finished. Ready to start')
-        Quagga.start();
-      });
+        }, function(err) {
+          if (err) {
+            console.log(err);
+            alert("カメラ初期化に失敗しました: " + err);
+            return;
+          }
+          console.log("Initialization finished. Ready to start");
+          Quagga.start();
+        });
 
-      Quagga.onDetected(function(result) {
+        Quagga.onDetected(function(result) {
           const code = result.codeResult.code;
-	  alert('バーコードを検出しました: '+ code);
-	  console.log('バーコード検出: ', code);
-        // document.getElementById("result").textContent = "読み取り: " + code;
+          alert("バーコードを検出しました: " + code);
+          document.getElementById("result").textContent = "読み取り: " + code;
 
-        // fetch(SHEET_URL, {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({ barcode: code })
-        // });
-
-        // Quagga.stop(); // 1回読み取ったら停止
+          // スプレッドシート送信（必要なら有効化）
+          /*
+          fetch(SHEET_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ barcode: code })
+          });
+          */
+        });
       });
     </script>
   </body>
 </html>
-
