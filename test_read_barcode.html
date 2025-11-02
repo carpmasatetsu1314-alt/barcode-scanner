@@ -6,8 +6,8 @@
     <style>
       #video {
 	  width: 100%;
-	  max-width: 800px;
-	  height: 1000px;
+	  max-width: 600px;
+	  height: 750px;
 	  border: 1px solid #ccc;
 	  margin-top: 10px;
       }
@@ -38,7 +38,7 @@
 
       let scanning = false;
 
-      function drawLine(begin,end,color,width) {
+      function drawLine(begin, end, color, width) {
 	  ctx.beginPath();
 	  ctx.moveTo(begin.x, begin.y);
 	  ctx.lineTo(end.x, end.y);
@@ -71,10 +71,10 @@
 
 	      if (code) {
 		  output.textContent = '読み取り結果: '+code.data;
-		  drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58', 4);
-		  drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58',4);
-		  drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, '#FF3B58', 4);
-		  drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58', 4);
+		  drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58', 5);
+		  drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58',5);
+		  drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, '#FF3B58', 5);
+		  drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58', 5);
 	      } else {
 		  requestAnimationFrame(scanFrame);
 	      }
