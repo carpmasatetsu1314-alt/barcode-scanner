@@ -71,6 +71,9 @@
 
 	      if (code) {
 		  output.textContent = '読み取り結果: '+code.data;
+
+		  console.log('code.location', code.location);
+		  
 		  drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58', 5);
 		  drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58',5);
 		  drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, '#FF3B58', 5);
