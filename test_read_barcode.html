@@ -38,6 +38,15 @@
 
       let scanning = false;
 
+      function drawLine(begin,end,color,width) {
+	  ctx.beginPath();
+	  ctx.moveTo(begin.x, begin.y);
+	  ctx.lineTo(end.x, end.y);
+	  ctx.lineWidth = width;
+	  ctx.strokeStyle = color;
+	  ctx.stroke();
+      }
+
       startBtn.addEventListener('click', async() => {
 	  if (scanning) return;
 	  scanning = true;
@@ -62,6 +71,10 @@
 
 	      if (code) {
 		  output.textContent = '読み取り結果: '+code.data;
+		  drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58', 4);
+		  drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58',4);
+		  drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, '#FF3B58', 4);
+		  drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58', 4);
 	      } else {
 		  requestAnimationFrame(scanFrame);
 	      }
