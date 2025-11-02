@@ -79,7 +79,7 @@
 		  fetch('https://script.google.com/macros/s/AKfycbyB7arT3032iqkYlEljBvn7Ah62i4OV-C4JQtpANxmZUhbkC0gAnOp0qju-F6GmgMXr/exec', {
 		      method: 'POST',
 		      headers: {'Content-Type': 'application/json'},
-		      body: JSON.stringify({ text:code.data })
+		      body: JSON.stringify({ text: code.data })
 		  })
 		      .then(response => response.text())
 		      .then(result => log('送信成功', result))
