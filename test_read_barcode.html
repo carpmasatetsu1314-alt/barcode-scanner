@@ -38,15 +38,6 @@
 
       let scanning = false;
 
-      function drawLine(begin, end, color, width) {
-	  ctx.beginPath();
-	  ctx.moveTo(begin.x, begin.y);
-	  ctx.lineTo(end.x, end.y);
-	  ctx.lineWidth = width;
-	  ctx.strokeStyle = color;
-	  ctx.stroke();
-      }
-
       startBtn.addEventListener('click', async() => {
 	  if (scanning) return;
 	  scanning = true;
@@ -55,9 +46,9 @@
 	      video.srcObject = stream;
 	      video.setAttribute('playsinline', true);
 	      requestAnimationFrame(scanFrame);
-	  } catch (err) {
-	      alert('カメラの起動に失敗しました: '+err);
-	  }
+      } catch (err) {
+	  alert('カメラの起動に失敗しました: '+err);
+      }
       });
 
       function scanFrame() {
@@ -71,11 +62,15 @@
 
 	      if (code) {
 		  output.textContent = '読み取り結果: '+code.data;
-		  
-		  drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58', 5);
-		  drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58',5);
-		  drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, '#FF3B58', 5);
-		  drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58', 5);
+
+		  fetch('https://script.google.com/macros/s/AKfycby8wH3at6f92mdy2mk48NioT5119VZDUWKu6iw8L3xl_5eyTKe4a2siXnZk3lJ0WdFA/exec', {
+		      method: 'POST',
+		      headers: {'Content-Type': 'application/json'},
+		      body: JSON.stringify({ text:code.data })
+		  })
+		      .then(response => response.text())
+		      .then(result => console.log('送信成功', result))
+		      .catch(err => console.error('送信失敗', err));
 	      } else {
 		  requestAnimationFrame(scanFrame);
 	      }
