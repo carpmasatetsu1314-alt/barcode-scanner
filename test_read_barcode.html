@@ -70,7 +70,7 @@
 	      const code = jsQR(imageData.data, imageData.width, imageData.height);
 
 	      if (code) {
-		  output.textContent = '読み取り結果: '+code.data+'\n'+code.location;
+		  output.textContent = '読み取り結果: '+code.data;
 		  
 		  drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58', 5);
 		  drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58',5);
