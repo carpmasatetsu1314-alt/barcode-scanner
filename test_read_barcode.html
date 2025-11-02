@@ -76,7 +76,7 @@
 	      if (code) {
 		  output.textContent = '読み取り結果: '+code.data;
 
-		  fetch('https://script.google.com/macros/s/AKfycby8wH3at6f92mdy2mk48NioT5119VZDUWKu6iw8L3xl_5eyTKe4a2siXnZk3lJ0WdFA/exec', {
+		  fetch('https://script.google.com/macros/s/AKfycbyB7arT3032iqkYlEljBvn7Ah62i4OV-C4JQtpANxmZUhbkC0gAnOp0qju-F6GmgMXr/exec', {
 		      method: 'POST',
 		      headers: {'Content-Type': 'application/json'},
 		      body: JSON.stringify({ text:code.data })
